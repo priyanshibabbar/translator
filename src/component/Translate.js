@@ -54,7 +54,7 @@ const Translate = () => {
               placeholder="enter text"
             ></textarea>
             <textarea
-              // readOnly 
+              readOnly 
               spellCheck="false"
               className="to-text"
               placeholder="translation"
@@ -81,7 +81,7 @@ const Translate = () => {
             </li>
           </ul>
         </div>
-        <button>Translate Text</button>
+        <button>Translate The Text</button>
       </div>
     </>
   );
