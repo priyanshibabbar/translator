@@ -7,7 +7,7 @@ const Translate = () => {
     const toText = document.querySelector(".to-text");
     const exchangeIcon = document.querySelector(".exchange");
     const selectTag = document.querySelectorAll("select");
-    const icons = document.querySelector(".row i");
+    const icons = document.querySelectorAll(".row i");
     const translateBtn = document.querySelector("button");
 
     selectTag.forEach((tag, id) => {
@@ -62,7 +62,35 @@ const Translate = () => {
           toText.value = data.responseData.translatedText;
           
         });
+        toText.setAttribute("placeholder", "Translation");
     });
+toText.setAttribute("placeholder", "Translating...");
+    icons.forEach((icon) => {
+      icon.addEventListener("click", ({target}) => {
+        if(!fromText.value || !toText.value) return;
+        if(target.classList.contains("fa-copy")) {
+          if(target.id == "from") {
+            navigator.clipboard.writeText(fromText.value);
+          } 
+          else {
+            navigator.clipboard.writeText(toText.value);
+          }
+        }
+        else {
+          let utterance; // sound
+          if(target.id === "from") {
+            utterance = new SpeechSynthesisUtterance(fromText.value);
+            utterance.lang = selectTag[0].value;
+          }
+          else {
+            utterance = new SpeechSynthesisUtterance(toText.value);
+            utterance.lang = selectTag[1].value;
+          }
+
+          speechSynthesis.speak(utterance);
+        }
+      })
+    })
   }, []);
 
   return (
