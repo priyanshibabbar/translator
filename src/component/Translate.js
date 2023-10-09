@@ -54,7 +54,7 @@ const Translate = () => {
               placeholder="enter text"
             ></textarea>
             <textarea
-              readOnly 
+              // readOnly 
               spellCheck="false"
               className="to-text"
               placeholder="translation"
