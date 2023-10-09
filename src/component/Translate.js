@@ -21,8 +21,8 @@ const Translate = () => {
             : country_code === "hi-IN"
             ? "selected"
             : "";
-            let option = `<option ${selected} value="${country_code}"> ${countries[country_code]} </option>`;
-            tag.insertAdjacentHTML("beforeend", option);
+        let option = `<option ${selected} value="${country_code}"> ${countries[country_code]} </option>`;
+        tag.insertAdjacentHTML("beforeend", option);
       }
     });
 
@@ -33,14 +33,36 @@ const Translate = () => {
       //console.log(tempLang);
       fromText.value = toText.value; //not showing
       toText.value = tempText;
-      //console.log(t
 
       selectTag[0].value = selectTag[1].value;
       selectTag[1].value = tempLang;
-
     });
-    
 
+    fromText.addEventListener("keyUp", () => {
+      if (!fromText.value) {
+        toText.value = "";
+      }
+    });
+
+    translateBtn.addEventListener("click", () => {
+      let text = fromText.value.trim();
+      let translateFrom = selectTag[0].value;
+      let translateTo = selectTag[1].value;
+
+      if (!text) return;
+
+      toText.setAttribute("placeholder", "Translating...");
+
+      let apiUrl = `https://api.mymemory.translated.net/get?q=${text}&langpair=${translateFrom}|${translateTo}`;
+
+      fetch(apiUrl)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          toText.value = data.responseData.translatedText;
+          
+        });
+    });
   }, []);
 
   return (
@@ -54,7 +76,7 @@ const Translate = () => {
               placeholder="enter text"
             ></textarea>
             <textarea
-              readOnly 
+              readOnly
               spellCheck="false"
               className="to-text"
               placeholder="translation"
